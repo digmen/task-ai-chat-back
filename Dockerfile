@@ -9,6 +9,9 @@ COPY . .
 
 RUN npm run build
 
+RUN mkdir -p dist/db
+COPY src/db/*.sql dist/db/
+
 RUN mkdir -p data
 
 EXPOSE 5000
