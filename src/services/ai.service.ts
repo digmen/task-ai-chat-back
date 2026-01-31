@@ -30,7 +30,8 @@ export const getAIResponse = async (history: { role: string, content: string }[]
         });
 
         return response.choices[0]?.message?.content || "No response generated.";
-    } catch (error: any) {
+   } catch (error: any) {
+        console.error("GROQ API ERROR:", error); 
         throw new AppError("AI Service Unavailable", 503);
     }
 };

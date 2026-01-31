@@ -33,3 +33,4 @@ export const loginUser = async (email: string, password: string) => {
 const generateToken = (id: number, email: string): string => {
     return jwt.sign({ id, email }, config.JWT_SECRET, { expiresIn: '7d' });
 };
+
