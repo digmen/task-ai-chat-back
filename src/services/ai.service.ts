@@ -1,8 +1,15 @@
-import { Groq } from 'groq-sdk';
+import OpenAI from 'openai';
 import { config } from '../config/env.js';
 import { AppError } from '../utils/AppError.js';
 
-const client = new Groq({ apiKey: config.AI_API_KEY });
+const client = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: config.AI_API_KEY, 
+  defaultHeaders: {
+    "HTTP-Referer": "https://mantis.stud", 
+    "X-Title": "Mantis AI",
+  }
+});
 
 interface ChatMessage {
     role: 'system' | 'user' | 'assistant';
@@ -24,14 +31,14 @@ export const getAIResponse = async (history: { role: string, content: string }[]
     try {
         const response = await client.chat.completions.create({
             messages,
-            model: "llama-3.3-70b-versatile",
+            model: "meta-llama/llama-3.3-70b-instruct", 
             temperature: 0.7,
             max_tokens: 4096,
         });
 
         return response.choices[0]?.message?.content || "No response generated.";
-   } catch (error: any) {
-        console.error("GROQ API ERROR:", error); 
+    } catch (error: any) {
+        console.error("OPENROUTER API ERROR:", error); 
         throw new AppError("AI Service Unavailable", 503);
     }
 };
