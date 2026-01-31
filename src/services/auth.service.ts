@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import * as UserRepo from '../db/user.repository.js';
 import { config } from '../config/env.js';
 import { AppError } from '../utils/AppError.js';
-import { User } from '../interfaces/index.js';
 
 export const registerUser = async (email: string, password: string) => {
     const existingUser = UserRepo.findUserByEmail(email);
